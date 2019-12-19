@@ -6,10 +6,13 @@ import (
 	"encoding/json"
 )
 
+type M map[string]int
+
 type BlockContents struct {
 	BlockNumber int `json:"blockNumber"`
 	ParentHash uint32 `json:"parentHash"`
 	TransactionCount int `json:"transactionCount"`
+	Transactions []M `json:"transactions"`
 }
 
 func convertBlock(block BlockContents) string {
@@ -27,11 +30,25 @@ func hashBlock(s string) uint32 {
 }
 
 func main() {
+
+	var testTransactions []M
+
+	testTransaction1 := M{"john":5, "james":-5}
+	testTransaction2 := M{"jill":-7, "joe":7}
+
+	testTransactions = append(testTransactions, testTransaction1, testTransaction2)
+
+	fmt.Println(testTransactions)
+
 	testBlock :=  BlockContents{
 		BlockNumber: 1,
 		ParentHash: 12345,
 		TransactionCount: 7,
+		Transactions: testTransactions,
 	}
-	hashedblock := hashBlock(convertBlock(testBlock))
+
+	convertedblock := convertBlock(testBlock)
+	fmt.Println(convertedblock)
+	hashedblock := hashBlock(convertedblock)
 	fmt.Println(hashedblock)
 }
