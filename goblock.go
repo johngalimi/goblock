@@ -38,8 +38,6 @@ func main() {
 
 	testTransactions = append(testTransactions, testTransaction1, testTransaction2)
 
-	fmt.Println(testTransactions)
-
 	testBlock :=  BlockContents{
 		BlockNumber: 1,
 		ParentHash: 12345,
@@ -48,7 +46,8 @@ func main() {
 	}
 
 	convertedblock := convertBlock(testBlock)
-	fmt.Println(convertedblock)
 	hashedblock := hashBlock(convertedblock)
+
+	fmt.Println(convertedblock)
 	fmt.Println(hashedblock)
 }
