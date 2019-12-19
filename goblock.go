@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"hash/fnv"
 	"encoding/json"
+	"math/rand"
 )
 
-type M map[string]int
+type Transaction map[string]int
 
 type BlockContents struct {
 	BlockNumber int `json:"blockNumber"`
 	ParentHash uint32 `json:"parentHash"`
 	TransactionCount int `json:"transactionCount"`
-	Transactions []M `json:"transactions"`
+	Transactions []Transaction `json:"transactions"`
 }
 
 func convertBlock(block BlockContents) string {
@@ -29,12 +30,19 @@ func hashBlock(s string) uint32 {
 	return h.Sum32()
 }
 
+func generateTransaction(maxValue int) Transaction {
+	negative := -1
+	positive := 1
+	sign := rand.Intn(positive - negative) + negative
+	return Transaction{"max":maxValue, "sign":sign}
+}
+
 func main() {
 
-	var testTransactions []M
+	var testTransactions []Transaction
 
-	testTransaction1 := M{"john":5, "james":-5}
-	testTransaction2 := M{"jill":-7, "joe":7}
+	testTransaction1 := Transaction{"john":5, "james":-5}
+	testTransaction2 := Transaction{"jill":-7, "joe":7}
 
 	testTransactions = append(testTransactions, testTransaction1, testTransaction2)
 
@@ -50,4 +58,6 @@ func main() {
 
 	fmt.Println(convertedblock)
 	fmt.Println(hashedblock)
+
+	fmt.Println(generateTransaction(100))
 }
