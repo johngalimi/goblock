@@ -12,18 +12,18 @@ type BlockContents struct {
 	TransactionCount int `json:"transactionCount"`
 }
 
-func hashBlock(s string) uint32 {
-	h := fnv.New32a()
-	h.Write([]byte(s))
-	return h.Sum32()
-}
-
 func convertBlock(block BlockContents) string {
 	bytes, err := json.Marshal(block)
 	if err != nil {
 		panic(err)
 	}
 	return string(bytes)
+}
+
+func hashBlock(s string) uint32 {
+	h := fnv.New32a()
+	h.Write([]byte(s))
+	return h.Sum32()
 }
 
 func main() {
