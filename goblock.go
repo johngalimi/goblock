@@ -5,6 +5,7 @@ import (
 	"hash/fnv"
 	"encoding/json"
 	"math/rand"
+	"time"
 )
 
 type Transaction map[string]int
@@ -31,9 +32,13 @@ func hashBlock(s string) uint32 {
 }
 
 func generateTransaction(maxValue int) Transaction {
-	negative := -1
-	positive := 1
-	sign := rand.Intn(positive - negative) + negative
+	rand.Seed(time.Now().UnixNano())
+
+	sign := 1
+	if rand.Float32() < 0.5 {
+		sign = -sign
+	}
+
 	return Transaction{"max":maxValue, "sign":sign}
 }
 
