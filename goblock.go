@@ -39,7 +39,10 @@ func generateTransaction(maxValue int) Transaction {
 		sign = -sign
 	}
 
-	return Transaction{"max":maxValue, "sign":sign}
+	amount := 1 + rand.Intn(maxValue - 1)
+	aValue := sign * amount
+
+	return Transaction{"party_a": aValue, "party_b": -1 * aValue}
 }
 
 func main() {
