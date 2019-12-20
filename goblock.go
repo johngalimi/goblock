@@ -22,6 +22,7 @@ func convertBlock(block BlockContents) string {
 	if err != nil {
 		panic(err)
 	}
+
 	return string(bytes)
 }
 
@@ -45,20 +46,24 @@ func generateTransaction(maxValue int) Transaction {
 	return Transaction{"party_a": aValue, "party_b": -1 * aValue}
 }
 
+func createTransactions(maxValue int, numTransactions int) []Transaction {
+
+	var transactionList []Transaction
+
+	for i := 1; i < numTransactions; i++ {
+		transactionList = append(transactionList, generateTransaction(maxValue))
+	}
+
+	return transactionList
+}
+
 func main() {
-
-	var testTransactions []Transaction
-
-	testTransaction1 := Transaction{"john":5, "james":-5}
-	testTransaction2 := Transaction{"jill":-7, "joe":7}
-
-	testTransactions = append(testTransactions, testTransaction1, testTransaction2)
 
 	testBlock :=  BlockContents{
 		BlockNumber: 1,
 		ParentHash: 12345,
 		TransactionCount: 7,
-		Transactions: testTransactions,
+		Transactions: createTransactions(100, 5),
 	}
 
 	convertedblock := convertBlock(testBlock)
@@ -66,6 +71,4 @@ func main() {
 
 	fmt.Println(convertedblock)
 	fmt.Println(hashedblock)
-
-	fmt.Println(generateTransaction(100))
 }
