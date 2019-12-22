@@ -118,6 +118,15 @@ func main() {
 	fmt.Println(convertedblock)
 	fmt.Println(hashedblock)
 
-	newAcct := updateAccount(txnList[0], txnList[1])
-	fmt.Println(newAcct)
+	state := Transaction{"party_a": 170, "party_b": 95}
+
+	fmt.Println(state)
+	fmt.Println(txnList[0])
+
+	if validateTransaction(txnList[0], state) {
+		newAcct := updateAccount(txnList[0], state)
+		fmt.Println(newAcct)
+	} else {
+		fmt.Println("failed")
+	}
 }
