@@ -57,6 +57,22 @@ func createTransactions(maxValue int, numTransactions int) []Transaction {
 	return transactionList
 }
 
+func updateAccount(txn Transaction, state Transaction) Transaction {
+
+	stateCopy := state
+
+	for key := range txn {
+		_, exists := stateCopy[key]
+		if exists {
+			stateCopy[key] += txn[key]
+		} else {
+			stateCopy[key] = txn[key]
+		}
+	}
+
+	return stateCopy
+}
+
 func main() {
 
 	txnList := createTransactions(100, 20)
@@ -73,4 +89,7 @@ func main() {
 
 	fmt.Println(convertedblock)
 	fmt.Println(hashedblock)
+
+	x := updateAccount(txnList[0], txnList[1])
+	fmt.Println(x)
 }
