@@ -101,9 +101,18 @@ func validateTransaction(txn Transaction, state Transaction) bool {
 	return true
 }
 
+func processTransaction(txn Transaction, state Transaction) Transaction {
+	if validateTransaction(txn, state) {
+		newAccount := updateAccount(txn, state)
+		return newAccount
+	} else {
+		return state
+	}
+}
+
 func main() {
 
-	txnList := createTransactions(100, 20)
+	txnList := createTransactions(100, 10)
 
 	testBlock :=  BlockContents{
 		BlockNumber: 1,
@@ -118,15 +127,22 @@ func main() {
 	fmt.Println(convertedblock)
 	fmt.Println(hashedblock)
 
-	state := Transaction{"party_a": 170, "party_b": 95}
+	s := Transaction{"party_a": 100, "party_b": 100}
 
-	fmt.Println(state)
-	fmt.Println(txnList[0])
+	fmt.Println("initial state: ", s)
 
-	if validateTransaction(txnList[0], state) {
-		newAcct := updateAccount(txnList[0], state)
-		fmt.Println(newAcct)
-	} else {
-		fmt.Println("failed")
+	for index, t := range txnList {
+
+		fmt.Println("----------", index, "----------" )
+		fmt.Println(s)
+		fmt.Println(t)
+
+		p := processTransaction(t, s)
+
+		fmt.Println(p)
+
+		fmt.Println("-----------------------")
 	}
+
+	fmt.Println("final state: ", s)
 }
