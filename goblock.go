@@ -73,6 +73,32 @@ func updateAccount(txn Transaction, state Transaction) Transaction {
 	return stateCopy
 }
 
+func validateTransaction(txn Transaction, state Transaction) bool {
+
+	sum := 0
+	accountBalance := 0
+
+	for _, value := range txn {
+		sum += value
+	}
+	if sum != 0 {
+		return false
+	}
+
+	for key := range txn {
+
+		_, exists := state[key]
+		if exists {
+			accountBalance = state[key]
+		}
+
+		if (accountBalance - txn[key]) < 0 {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 
 	txnList := createTransactions(100, 20)
