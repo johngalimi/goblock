@@ -27,9 +27,10 @@ func convertBlock(block BlockContents) string {
 }
 
 func hashBlock(s string) uint32 {
-	h := fnv.New32a()
-	h.Write([]byte(s))
-	return h.Sum32()
+	hashed := fnv.New32a()
+	hashed.Write([]byte(s))
+
+	return hashed.Sum32()
 }
 
 func generateTransaction(maxValue int) Transaction {
@@ -76,7 +77,6 @@ func updateAccount(txn Transaction, state Transaction) Transaction {
 func validateTransaction(txn Transaction, state Transaction) bool {
 
 	sum := 0
-	accountBalance := 0
 
 	for _, value := range txn {
 		sum += value
@@ -88,6 +88,8 @@ func validateTransaction(txn Transaction, state Transaction) bool {
 	for key := range txn {
 
 		_, exists := state[key]
+		accountBalance := 0
+
 		if exists {
 			accountBalance = state[key]
 		}
@@ -116,6 +118,6 @@ func main() {
 	fmt.Println(convertedblock)
 	fmt.Println(hashedblock)
 
-	x := updateAccount(txnList[0], txnList[1])
-	fmt.Println(x)
+	newAcct := updateAccount(txnList[0], txnList[1])
+	fmt.Println(newAcct)
 }
