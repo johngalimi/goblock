@@ -59,11 +59,13 @@ func createTransactions(maxValue int, numTransactions int) []Transaction {
 
 func main() {
 
+	txnList := createTransactions(100, 20)
+
 	testBlock :=  BlockContents{
 		BlockNumber: 1,
 		ParentHash: 12345,
 		TransactionCount: 7,
-		Transactions: createTransactions(100, 5),
+		Transactions: txnList[:5],
 	}
 
 	convertedblock := convertBlock(testBlock)
