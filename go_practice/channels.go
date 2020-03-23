@@ -14,6 +14,8 @@ func sum(s []int, c chan int) {
 		sum += v
 	}
 	c <- sum // send sum to c
+	fmt.Println("finished goroutine")
+	fmt.Println(s, sum)
 }
 
 func main() {
@@ -23,6 +25,6 @@ func main() {
 	go sum(s[:len(s)/2], c)
 	go sum(s[len(s)/2:], c)
 	x, y := <-c, <-c // receive from c
-
+	fmt.Println("finished full sum")
 	fmt.Println(x, y, x+y)
 }
