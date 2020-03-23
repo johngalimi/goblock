@@ -13,6 +13,7 @@ func say(s string) {
 }
 
 func main() {
+	// concurrently runs the goroutine while the normal fxn is running
 	go say("world")
 	say("hello")
 }
